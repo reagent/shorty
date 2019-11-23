@@ -11,7 +11,8 @@ import { Link } from './link/link.entity'
       database: "database.sqlite",
       entities: [Link],
       synchronize: false,
-      migrationsRun: false
+      migrationsRun: false,
+      logging: true
     }),
     LinkModule
   ],

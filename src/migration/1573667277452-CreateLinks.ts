@@ -7,7 +7,9 @@ export class CreateLinks1573667277452 implements MigrationInterface {
         CREATE TABLE links (
           id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
           url VARCHAR(2000) NOT NULL,
-          code CHAR(6) NOT NULL UNIQUE
+          url_hash CHAR(32) NOT NULL UNIQUE,
+          code CHAR(6) NOT NULL UNIQUE,
+          created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         )
       `)
     }
