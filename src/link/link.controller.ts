@@ -1,31 +1,22 @@
-import { UseInterceptors  } from "@nestjs/common"
+import { UseInterceptors, Header  } from "@nestjs/common"
 import { Controller, Post, Body, ClassSerializerInterceptor } from "@nestjs/common"
 import { LinkService, LinkDto } from "./link.service"
 import { Link } from "./link.entity"
+import { validate } from "class-validator"
 
 @Controller()
 export class LinkController {
   constructor(private readonly service: LinkService) {}
 
-  @UseInterceptors(ClassSerializerInterceptor)
+  // @UseInterceptors(ClassSerializerInterceptor)
   @Post("short_link")
+  @Header("Content-Type", "application/json")
   async create(@Body() dto: LinkDto): Promise<Link> {
+    console.log('oops')
     return this.service.create(dto)
-    // let created = this.service.create(dto)
-
-    // // if (!created) { throw new HTTPException() }
-
-    // return created
-
-
-    // try create
-    // if not success, throw new HTTPException
-    // 
-    // return this.service.findAll()
   }
-
-  // @Get()
-  // index(): Promise<Link[]> {
-  //   return this.service.findAll();
+  // async create(@Body() dto: LinkDto): Promise<Link> {
+  //   console.log('controller dto', dto)
+  //   return this.service.create(dto)
   // }
 }

@@ -6,20 +6,13 @@ import * as md5 from "md5"
 import * as URI from "uri-js"
 import * as ShortId from "shortid"
 
+import { validate, IsUrl, Length, IsNotEmpty } from "class-validator"
 
-import { IsNotEmpty } from "class-validator"
-
-class LinkDto { 
-  @IsNotEmpty()
-  readonly longUrl: string
+class LinkDto {
+  @IsUrl()
+  @Length(1,2000)
+  longUrl: string
 }
-
-// class ShowLinkDto {
-//   readonly longUrl: string
-//   get shortLink():string {
-
-//   }
-// }
 
 @Injectable()
 export class LinkService {
@@ -58,7 +51,7 @@ export class LinkService {
 
     // console.log(link.id)
 
-    // return link  
+    // return link
 
 
 
@@ -67,7 +60,7 @@ export class LinkService {
     // })
 
 
-    // return 
+    // return
   }
 
   // private async forHash(hash: string): Promise<Link> {
@@ -81,15 +74,15 @@ export class LinkService {
   // }
 }
 
-class URLValidator { 
+class URLValidator {
   private url: string
-  
-  constructor(url: string) { 
+
+  constructor(url: string) {
     this.url = url
   }
 }
 
-class URLHasher { 
+class URLHasher {
   private url: string
 
   constructor(url: string) {
@@ -100,7 +93,7 @@ class URLHasher {
     return md5(this.normalizedUrl)
   }
 
-  get normalizedUrl(): string { 
+  get normalizedUrl(): string {
     let uri = URI.parse(this.url)
 
     if (uri.query) {
@@ -117,10 +110,10 @@ class URLHasher {
 
       if (ax[0] > bx[0]) { return 1 }
       if (ax[0] < bx[0]) { return -1 }
-      
+
       return 0
     }).join("&")
-  } 
+  }
 }
 
 export { URLValidator, URLHasher, LinkDto }
