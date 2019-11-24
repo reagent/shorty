@@ -4,12 +4,12 @@ import { ValidationError } from 'class-validator';
 describe('ValidationException', () => {
   describe('.message', () => {
     it('returns an empty object when there are no errors', () => {
-      let subject = new ValidationException([]);
+      const subject = new ValidationException([]);
       expect(subject.message).toEqual({});
     });
 
     it('returns all messages for a single field', () => {
-      let error = new ValidationError();
+      const error = new ValidationError();
 
       error.property = 'name';
       error.constraints = {
@@ -17,7 +17,7 @@ describe('ValidationException', () => {
         isNotEmpty: 'name must not be empty',
       };
 
-      let subject = new ValidationException([error]);
+      const subject = new ValidationException([error]);
 
       expect(subject.message).toEqual({
         errors: {
@@ -30,15 +30,15 @@ describe('ValidationException', () => {
     });
 
     it('returns all messages for multiple fields', () => {
-      let nameError = new ValidationError();
+      const nameError = new ValidationError();
       nameError.property = 'name';
       nameError.constraints = { isNotEmpty: 'name must not be empty' };
 
-      let urlError = new ValidationError();
+      const urlError = new ValidationError();
       urlError.property = 'url';
       urlError.constraints = { isUrl: 'url must be a url' };
 
-      let subject = new ValidationException([nameError, urlError]);
+      const subject = new ValidationException([nameError, urlError]);
 
       expect(subject.message).toEqual({
         errors: {

@@ -1,2 +1,2 @@
-import { configuration } from './config/database.config'
-export = configuration
+import { configuration } from './config/database.config';
+export = configuration;

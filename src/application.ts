@@ -7,7 +7,7 @@ import { ValidationException } from './exceptions/validation.exception';
 import { configuration } from '../config/application.config';
 
 export const application = async (): Promise<INestApplication> => {
-  let app = await NestFactory.create(AppModule, configuration);
+  const app = await NestFactory.create(AppModule, configuration);
 
   app.useGlobalPipes(
     new ValidationPipe({
