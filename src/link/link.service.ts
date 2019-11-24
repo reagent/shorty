@@ -1,17 +1,17 @@
-import { Injectable } from "@nestjs/common"
-import { InjectRepository } from "@nestjs/typeorm"
-import { Repository } from "typeorm"
-import { Link } from "./link.entity"
-import * as md5 from "md5"
-import * as URI from "uri-js"
-import * as ShortId from "shortid"
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Link } from './link.entity';
+import * as md5 from 'md5';
+import * as URI from 'uri-js';
+import * as ShortId from 'shortid';
 
-import { validate, IsUrl, Length, IsNotEmpty } from "class-validator"
+import { validate, IsUrl, Length, IsNotEmpty } from 'class-validator';
 
 class LinkDto {
   @IsUrl()
-  @Length(1,2000)
-  longUrl: string
+  @Length(1, 2000)
+  longUrl: string;
 }
 
 @Injectable()
@@ -22,26 +22,24 @@ export class LinkService {
   ) {}
 
   async create(dto: LinkDto): Promise<Link> {
-    let hasher = new URLHasher(dto.longUrl)
-    let existing = await this.repo.findOne({urlHash: hasher.hash})
+    let hasher = new URLHasher(dto.longUrl);
+    let existing = await this.repo.findOne({ urlHash: hasher.hash });
 
     // let existing = await this.forHash(hasher.hash)
 
-    if (existing) { return existing }
+    if (existing) {
+      return existing;
+    }
 
     let link = this.repo.create({
       url: dto.longUrl,
       urlHash: hasher.hash,
-      code: ShortId.generate().substring(0,6)
-    })
+      code: ShortId.generate().substring(0, 6),
+    });
 
-    let created = await this.repo.save(link)
+    let created = await this.repo.save(link);
 
-    return created
-
-
-
-
+    return created;
 
     // let created = this.repo.create({
     //   url: dto.longUrl,
@@ -53,12 +51,9 @@ export class LinkService {
 
     // return link
 
-
-
     // let link = new Link({
     //   url: dto.longUrl
     // })
-
 
     // return
   }
@@ -67,53 +62,58 @@ export class LinkService {
   //   return this.repo.findOne({where: {urlHash: hash}})
   // }
 
-
-
   // findAll(): Promise<Link[]> {
   //   return this.repo.find();
   // }
 }
 
 class URLValidator {
-  private url: string
+  private url: string;
 
   constructor(url: string) {
-    this.url = url
+    this.url = url;
   }
 }
 
 class URLHasher {
-  private url: string
+  private url: string;
 
   constructor(url: string) {
-    this.url = url
+    this.url = url;
   }
 
   get hash(): string {
-    return md5(this.normalizedUrl)
+    return md5(this.normalizedUrl);
   }
 
   get normalizedUrl(): string {
-    let uri = URI.parse(this.url)
+    let uri = URI.parse(this.url);
 
     if (uri.query) {
-      uri.query = this.reorderQueryParams(uri.query)
+      uri.query = this.reorderQueryParams(uri.query);
     }
 
-    return URI.normalize(URI.serialize(uri))
+    return URI.normalize(URI.serialize(uri));
   }
 
   private reorderQueryParams(params: string): string {
-    return params.split("&").sort((a,b) => {
-      let ax = a.split("=")
-      let bx = b.split("=")
+    return params
+      .split('&')
+      .sort((a, b) => {
+        let ax = a.split('=');
+        let bx = b.split('=');
 
-      if (ax[0] > bx[0]) { return 1 }
-      if (ax[0] < bx[0]) { return -1 }
+        if (ax[0] > bx[0]) {
+          return 1;
+        }
+        if (ax[0] < bx[0]) {
+          return -1;
+        }
 
-      return 0
-    }).join("&")
+        return 0;
+      })
+      .join('&');
   }
 }
 
-export { URLValidator, URLHasher, LinkDto }
+export { URLValidator, URLHasher, LinkDto };

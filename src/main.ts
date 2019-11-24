@@ -1,7 +1,7 @@
-import { application } from './application'
+import { application } from './application';
 
 async function bootstrap() {
-  let app = await application()
+  let app = await application();
   app.listen(3000);
 }
 
