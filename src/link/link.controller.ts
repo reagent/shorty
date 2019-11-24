@@ -12,7 +12,6 @@ export class LinkController {
   @Post("short_link")
   @Header("Content-Type", "application/json")
   async create(@Body() dto: LinkDto): Promise<Link> {
-    console.log('oops')
     return this.service.create(dto)
   }
   // async create(@Body() dto: LinkDto): Promise<Link> {
