@@ -1,4 +1,4 @@
-import { validate, IsUrl, Length, IsNotEmpty } from 'class-validator';
+import { IsUrl, Length } from 'class-validator';
 
 export class CreateDto {
   @IsUrl()

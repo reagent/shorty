@@ -8,7 +8,7 @@ export const configuration: TypeOrmModuleOptions = {
   database: `db/${databaseName}`,
   synchronize: false,
   migrationsRun: false,
-  logging: true,
+  logging: (process.env.NODE_ENV !== 'test'),
   entities: ['dist/src/**/*.entity.js'],
   migrations: ['dist/db/migrations/**/*.js'],
   cli: {
